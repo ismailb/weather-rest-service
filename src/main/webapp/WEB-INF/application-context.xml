@@ -9,12 +9,19 @@
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.1.xsd
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
 
-	<context:component-scan base-package="com.ib"></context:component-scan>
-
-	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> 
-		<property name="jndiName" value="java:jdbc/weatherdb" /> </bean> -->
+	<context:annotation-config />
+	<context:component-scan base-package="com.ib" />
+	<context:property-placeholder location="classpath:application.properties" />
 
 	<jee:jndi-lookup id="dataSource" jndi-name="jdbc/weatherdb" />
+
+	<bean id="org.dozer.Mapper" class="org.dozer.DozerBeanMapper">
+		<property name="mappingFiles">
+			<list>
+				<value>classpath:dozer-bean-mappings.xml</value>
+			</list>
+		</property>
+	</bean>
 
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
