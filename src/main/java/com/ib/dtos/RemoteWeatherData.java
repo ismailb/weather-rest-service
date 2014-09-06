@@ -1,12 +1,15 @@
 package com.ib.dtos; 
 
+import java.util.Date;
 import java.util.List;
-
-import javax.ws.rs.core.Response.Status;
 
 import org.codehaus.jackson.annotate.JsonAutoDetect;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
+import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
+import org.codehaus.jackson.map.annotate.JsonDeserialize;
+
+import com.ib.misc.UnixTimestampDeserializer;
 
 /**
  * 
@@ -57,71 +60,84 @@ import org.codehaus.jackson.annotate.JsonProperty;
  * </pre>
  */
 @JsonAutoDetect(getterVisibility = Visibility.NONE, fieldVisibility = Visibility.ANY)
+@JsonIgnoreProperties(ignoreUnknown=true)
 public class RemoteWeatherData {
 	
 	@JsonProperty("dt")
-	private String date;
+	@JsonDeserialize(using = UnixTimestampDeserializer.class)
+	private Date date;
 	
 	@JsonProperty("name")
 	private String name;
 	
 	@JsonProperty("cod")
-	private Status code;
+	private String code;
 	
 	@JsonProperty("coord")
 	private CoordinateDTO coordinates;
 	
 	@JsonProperty("sys")
-	private SystemDTO systemDTO;
+	private SystemDTO system;
 	
 	@JsonProperty("main")
-	private MainDTO mainDTO;
+	private MainDTO main;
 	
 	@JsonProperty("weather")
-	private List<WeatherDTO> weatherDTO;
+	private List<WeatherDTO> weather;
 	
-	public class CoordinateDTO
-	{
-		@JsonProperty("lat")
-		public double latitude;
-		
-		@JsonProperty("lon")
-		public double longitude;
+	public Date getDate() {
+		return date;
 	}
-	
-	public class SystemDTO
-	{
-		@JsonProperty("country")
-		public String country;
-		
-		@JsonProperty("sunrise")
-		public String sunrise;
-		
-		@JsonProperty("sunset")
-		public String sunset;
+
+	public void setDate(Date date) {
+		this.date = date;
 	}
-	
-	public class MainDTO
-	{
-		@JsonProperty("temp")
-		public String temperature;
-		
-		@JsonProperty("temp_min")
-		public String miniumumTemperature;
-		
-		@JsonProperty("temp_max")
-		public String maximumTemperature;
+
+	public String getName() {
+		return name;
 	}
-	
-	public class WeatherDTO
-	{
-		@JsonProperty("id")
-		public String id;
-		
-		@JsonProperty("main")
-		public String main;
-		
-		@JsonProperty("description")
-		public String description;
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
+	}
+
+	public CoordinateDTO getCoordinates() {
+		return coordinates;
+	}
+
+	public void setCoordinates(CoordinateDTO coordinates) {
+		this.coordinates = coordinates;
+	}
+
+	public SystemDTO getSystem() {
+		return system;
+	}
+
+	public void setSystem(SystemDTO systemDTO) {
+		this.system = systemDTO;
+	}
+
+	public MainDTO getMain() {
+		return main;
+	}
+
+	public void setMain(MainDTO mainDTO) {
+		this.main = mainDTO;
+	}
+
+	public List<WeatherDTO> getWeather() {
+		return weather;
+	}
+
+	public void setWeather(List<WeatherDTO> weatherDTO) {
+		this.weather = weatherDTO;
 	}
 }

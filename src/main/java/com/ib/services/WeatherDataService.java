@@ -19,6 +19,7 @@ import org.codehaus.jettison.json.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.ib.businessservices.WeatherDataBusinessService;
 import com.ib.dtos.WeatherDataDTO;
@@ -28,6 +29,7 @@ import com.ib.exception.ApplicationException;
  * @author ishmael
  *
  */
+@Service
 @Path("/weather")
 public class WeatherDataService {
 
@@ -44,12 +46,14 @@ public class WeatherDataService {
 		if (isNotBlank(location)) {
 			try {
 				WeatherDataDTO weatherDataDto = weatherDataBusinessService.getCurrentWeather(location);
-				response.status(Status.ACCEPTED);
+				response.status(Status.OK);
 				response.entity(weatherDataDto);
 			} catch (ApplicationException e) {
 				response.status(Status.NOT_FOUND);
 				response.entity(getError(e.getMessage()));
 			} catch (Exception e) {
+				System.out.println(e.getMessage() + e.getStackTrace());
+				logger.error(e.getMessage(), e);
 				response.status(Status.INTERNAL_SERVER_ERROR);
 				response.entity(getError("Internal Error"));
 			}

@@ -1,13 +1,17 @@
 package com.ib.models;
 
+import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.apache.commons.collections.CollectionUtils;
 
 @Entity
 @Table(name = "LOCATION")
@@ -29,10 +33,10 @@ public class Location extends BaseEntity{
 	@Column(name = "LONGITUDE")
 	private String longitude;
 
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="location")
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="location", cascade = CascadeType.ALL)
 	private Set<LocationWeatherCondition> conditions;
 	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="location")
+	@OneToMany(fetch=FetchType.LAZY, mappedBy="location", cascade = CascadeType.ALL)
 	private Set<LocationWeatherData> data;
 	
 	public String getName() {
@@ -68,6 +72,10 @@ public class Location extends BaseEntity{
 	}
 
 	public Set<LocationWeatherCondition> getConditions() {
+		if (CollectionUtils.isEmpty(conditions))
+		{
+			conditions = new HashSet<LocationWeatherCondition>();
+		}
 		return conditions;
 	}
 
@@ -76,6 +84,10 @@ public class Location extends BaseEntity{
 	}
 
 	public Set<LocationWeatherData> getData() {
+		if (CollectionUtils.isEmpty(data))
+		{
+			data = new HashSet<LocationWeatherData>();
+		}
 		return data;
 	}
 

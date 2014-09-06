@@ -4,22 +4,24 @@
           http://dozer.sourceforge.net/schema/beanmapping.xsd">
 
 	<mapping>
-		<class-a>org.dozer.vo.TestObject</class-a>
-		<class-b>org.dozer.vo.TestObjectPrime</class-b>
+		<class-a>com.ib.dtos.RemoteWeatherData</class-a>
+		<class-b>com.ib.models.Location</class-b>
 		<field>
-			<a>one</a>
-			<b>onePrime</b>
+			<a>name</a>
+			<b>name</b>
+		</field>
+		<field>
+			<a>system.country</a>
+			<b>country</b>
+		</field>
+		<field>
+			<a>coordinates.latitude</a>
+			<b>latitude</b>
+		</field>
+		<field>
+			<a>coordinates.longitude</a>
+			<b>longitude</b>
 		</field>
 	</mapping>
-
-	<mapping wildcard="false">
-		<class-a>org.dozer.vo.TestObjectFoo</class-a>
-		<class-b>org.dozer.vo.TestObjectFooPrime</class-b>
-		<field>
-			<a>oneFoo</a>
-			<b>oneFooPrime</b>
-		</field>
-	</mapping>
-
 </mappings> 
       
