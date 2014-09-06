@@ -14,6 +14,12 @@ import javax.persistence.Table;
 import org.apache.commons.collections.CollectionUtils;
 import org.hibernate.annotations.Where;
 
+/**
+ * Location entity stores information pertaining to the location which doesnt change like lat, long, name
+ * 
+ * @author ishmael
+ *
+ */
 @Entity
 @Table(name = "LOCATION")
 public class Location extends BaseEntity{
@@ -35,11 +41,11 @@ public class Location extends BaseEntity{
 	private String longitude;
 
 	@OneToMany(fetch=FetchType.EAGER, cascade = { CascadeType.ALL }, mappedBy = "location")
-	@Where(clause = "DATE(INFO_DATE) = CURDATE()")
+	@Where(clause = "DATE(INFO_DATE) = CURRENT_DATE")
 	private Set<LocationWeatherCondition> todaysConditions;
 	
 	@OneToMany(fetch=FetchType.EAGER, cascade = { CascadeType.ALL }, mappedBy = "location")
-	@Where(clause = "DATE(INFO_DATE) = CURDATE()")
+	@Where(clause = "DATE(INFO_DATE) = CURRENT_DATE")
 	private Set<LocationWeatherData> todaysData;
 	
 	public String getName() {

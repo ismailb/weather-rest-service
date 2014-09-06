@@ -15,10 +15,14 @@ import javax.persistence.Version;
 import org.apache.commons.lang3.StringUtils;
 import org.joda.time.LocalDateTime;
 
+/**
+ * Base entity contains the audit fields and basic methods needed for any application entity
+ * 
+ * @author ishmael
+ *
+ */
 @MappedSuperclass
 public abstract class BaseEntity {
-
-	//protected String primaryId;
 
 	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "CRTE_DATE")

@@ -12,11 +12,10 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 import com.ib.misc.UnixTimestampDeserializer;
 
 /**
- * 
+ * RemoteWeatherData maps to the data given by remote weather data service
+ *  
  * @author ishmael
  *
- * Format
- * 
  * <pre>
  * {
  * 	"coord": {

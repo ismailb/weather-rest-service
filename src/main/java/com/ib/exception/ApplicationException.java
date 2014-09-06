@@ -1,5 +1,11 @@
 package com.ib.exception;
 
+/**
+ * Application exception is the business exception with related context information
+ * 
+ * @author ishmael
+ *
+ */
 public class ApplicationException extends RuntimeException {
 	
 	private static final long serialVersionUID = 1L;

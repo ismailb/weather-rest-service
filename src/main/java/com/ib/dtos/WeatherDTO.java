@@ -7,6 +7,12 @@ import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
 import org.codehaus.jackson.map.annotate.JsonSerialize.Inclusion;
 
+/**
+ * Weather dto maps to weather data of remote service
+ * 
+ * @author ishmael
+ *
+ */
 @JsonAutoDetect(getterVisibility = Visibility.NONE, fieldVisibility = Visibility.ANY)
 @JsonIgnoreProperties(ignoreUnknown=true)
 @JsonSerialize(include = Inclusion.NON_NULL)

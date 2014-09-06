@@ -13,9 +13,23 @@ import com.ib.models.BaseEntity;
 import com.ib.models.Location;
 import com.ib.models.WeatherCondition;
 
+/**
+ * Weather DAO handles all the db operations on the weather data and location tables
+ * 
+ * @author ishmael
+ *
+ */
 @Repository
 public class WeatherDataDao {
 
+	
+	/**
+	 * Find {@link Location} by location name
+	 * 
+	 * @param name
+	 * @return found location
+	 * @throws ApplicationException
+	 */
 	public Location findLocationByName(String name) {
 
 		if (StringUtils.isBlank(name)) {
@@ -43,7 +57,14 @@ public class WeatherDataDao {
 		return location;
 	}
 
-	public WeatherCondition findWeatherConditionByCode(Class<WeatherCondition> class1, String code) {
+	/**
+	 * Find {@link WeatherCondition} by code
+	 * 
+	 * @param code
+	 * @return found {@link WeatherCondition}
+	 * @throws ApplicationException
+	 */
+	public WeatherCondition findWeatherConditionByCode(String code) {
 		if (StringUtils.isBlank(code)) {
 			return null;
 		}
@@ -70,10 +91,23 @@ public class WeatherDataDao {
 
 	}
 
+	/**
+	 * Find any entity of by given type by primary id 
+	 * 
+	 * @param type
+	 * @param id
+	 * @return found entity
+	 */
 	public <T> T find(Class<T> type, String id) {
 		return getEntityManager().find(type, id);
 	}
 
+	/**
+	 * Saves the entity. Does persist incase of new entity entity, merges otherwise.
+	 * 
+	 * @param entity
+	 * @return saved entity
+	 */
 	public <T extends BaseEntity> T save(T entity) {
 		if (entity.isNew()) {
 			getEntityManager().persist(entity);

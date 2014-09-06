@@ -13,6 +13,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**
+ * Location weather condition is relation table for {@link Location} and {@link WeatherCondition}
+ * 
+ * @author ishmael
+ *
+ */
 @Entity
 @Table(name = "LOCATION_WEATHER_CONDITION")
 public class LocationWeatherCondition extends BaseEntity{
@@ -25,7 +31,7 @@ public class LocationWeatherCondition extends BaseEntity{
 	@JoinColumn(name = "LOCATION_ID", referencedColumnName = "LOCATION_ID")
 	private Location location;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "INFO_DATE")
 	private Date date;
 

@@ -11,6 +11,12 @@ import org.springframework.web.client.RestTemplate;
 
 import com.ib.dtos.RemoteWeatherData;
 
+/**
+ * RemoteWeatherDataService is the service component to pull weather info for a location from remote weather service
+ * 
+ * @author ishmael
+ *
+ */
 @Service
 public class RemoteWeatherDataService {
 

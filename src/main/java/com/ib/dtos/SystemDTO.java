@@ -1,15 +1,16 @@
 package com.ib.dtos;
 
-import java.util.Date;
-
 import org.codehaus.jackson.annotate.JsonAutoDetect;
+import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
-import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
-import org.codehaus.jackson.map.annotate.JsonDeserialize;
 
-import com.ib.misc.UnixTimestampDeserializer;
-
+/**
+ * System dto to capture remote sys info
+ *  
+ * @author ishmael
+ *
+ */
 @JsonAutoDetect(getterVisibility = Visibility.ANY, fieldVisibility = Visibility.ANY)
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class SystemDTO {
@@ -18,11 +19,9 @@ public class SystemDTO {
 	private String country;
 
 	@JsonProperty("sunrise")
-	//@JsonDeserialize(using = UnixTimestampDeserializer.class)
 	private String sunrise;
 
 	@JsonProperty("sunset")
-	//@JsonDeserialize(using = UnixTimestampDeserializer.class)
 	private String sunset;
 
 	public String getCountry() {

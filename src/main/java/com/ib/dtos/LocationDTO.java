@@ -10,6 +10,12 @@ import org.codehaus.jackson.map.annotate.JsonSerialize;
 
 import com.ib.misc.TimeSerializer;
 
+/**
+ * Location dto to capture location related details
+ * 
+ * @author ishmael
+ *
+ */
 @JsonAutoDetect(getterVisibility = Visibility.NONE, fieldVisibility = Visibility.ANY)
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class LocationDTO {

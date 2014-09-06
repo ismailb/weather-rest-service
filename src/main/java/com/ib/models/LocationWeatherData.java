@@ -12,6 +12,12 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+/**
+ * LocationWeatherData contains the weather data for a {@link Location}
+ * 
+ * @author ishmael
+ *
+ */
 @Entity
 @Table(name = "LOCATION_WEATHER_DATA")
 public class LocationWeatherData extends BaseEntity {
@@ -24,7 +30,7 @@ public class LocationWeatherData extends BaseEntity {
 	@JoinColumn(name = "LOCATION_ID", referencedColumnName = "LOCATION_ID")
 	private Location location;
 
-	@Temporal(TemporalType.DATE)
+	@Temporal(TemporalType.TIMESTAMP)
 	@Column(name = "INFO_DATE")
 	private Date date;
 

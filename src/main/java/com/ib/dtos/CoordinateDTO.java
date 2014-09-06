@@ -5,6 +5,12 @@ import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 
+/**
+ * Coordinate dto to capture latitude and longitude
+ * 
+ * @author ishmael
+ *
+ */
 @JsonAutoDetect(getterVisibility = Visibility.NONE, fieldVisibility = Visibility.ANY)
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class CoordinateDTO {

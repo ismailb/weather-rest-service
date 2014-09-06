@@ -4,7 +4,6 @@ import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
 import org.apache.commons.collections.CollectionUtils;
-import org.dozer.DozerBeanMapper;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -22,6 +21,12 @@ import com.ib.models.LocationWeatherData;
 import com.ib.models.WeatherCondition;
 import com.ib.services.RemoteWeatherDataService;
 
+/**
+ * Weather business service component handles all the business methods for processing, persisiting and retriving weather data
+ * 
+ * @author ishmael
+ *
+ */
 @Component
 public class WeatherDataBusinessService {
 
@@ -31,9 +36,14 @@ public class WeatherDataBusinessService {
 	@Autowired
 	private WeatherDataDao weatherDataDao;
 
-	@Autowired
-	private DozerBeanMapper mapper;
 
+	/**
+	 * Gets todays weather information for a location
+	 * 
+	 * @param locationName
+	 * @return today's weatherDto
+	 * @throws ApplicationException
+	 */
 	@Transactional(propagation = Propagation.REQUIRED)
 	public WeatherDataDTO getCurrentWeather(String locationName) {
 
@@ -41,9 +51,6 @@ public class WeatherDataBusinessService {
 			throw new ApplicationException("Location %s not found", locationName);
 		}
 
-		// TODO: check froma db
-
-		//Location location = weatherDataDao.getTodaysWeather(locationName);
 		Location location = weatherDataDao.findLocationByName(locationName);
 
 		if (location == null || CollectionUtils.isEmpty(location.getTodaysConditions()) || CollectionUtils.isEmpty(location.getTodaysData())) {
@@ -60,6 +67,12 @@ public class WeatherDataBusinessService {
 		return new WeatherDataDTO(location);
 	}
 
+	/**
+	 * Process the weather data retrieved from the remote weather service into the database
+	 * 
+	 * @param remoteWeatherData
+	 * @return location
+	 */
 	private Location processWeatherData(RemoteWeatherData remoteWeatherData) {
 
 		Location location = null;
@@ -82,7 +95,7 @@ public class WeatherDataBusinessService {
 			}
 			if (isNotEmpty(remoteWeatherData.getWeather())) {
 				for (WeatherDTO weatherDto : remoteWeatherData.getWeather()) {
-					WeatherCondition wc = weatherDataDao.findWeatherConditionByCode(WeatherCondition.class, weatherDto.getId());
+					WeatherCondition wc = weatherDataDao.findWeatherConditionByCode(weatherDto.getId());
 					if (wc == null) {
 						wc = new WeatherCondition();
 						wc.setCode(weatherDto.getId());

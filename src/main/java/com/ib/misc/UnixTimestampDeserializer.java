@@ -11,6 +11,12 @@ import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+/**
+ * UnixTimestampDeserializer to deserialize unix timestamps to {@link Date} object
+ * 
+ * @author ishmael
+ *
+ */
 public class UnixTimestampDeserializer extends JsonDeserializer<Date> {
 	Logger logger = LoggerFactory.getLogger(UnixTimestampDeserializer.class);
 

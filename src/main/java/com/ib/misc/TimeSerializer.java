@@ -9,6 +9,12 @@ import org.codehaus.jackson.JsonProcessingException;
 import org.codehaus.jackson.map.JsonSerializer;
 import org.codehaus.jackson.map.SerializerProvider;
 
+/**
+ * Time serializer for json date fields
+ * 
+ * @author ishmael
+ *
+ */
 public class TimeSerializer extends JsonSerializer<Date> {
 
 	private static final SimpleDateFormat dateFormat = new SimpleDateFormat("HH:mm");

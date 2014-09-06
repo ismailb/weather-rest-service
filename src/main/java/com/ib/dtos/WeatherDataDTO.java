@@ -10,7 +10,6 @@ import org.codehaus.jackson.annotate.JsonAutoDetect.Visibility;
 import org.codehaus.jackson.annotate.JsonIgnoreProperties;
 import org.codehaus.jackson.annotate.JsonProperty;
 import org.codehaus.jackson.map.annotate.JsonSerialize;
-import org.codehaus.jackson.map.ext.JodaSerializers.DateTimeSerializer;
 import org.joda.time.DateTime;
 
 import com.ib.misc.DateSerializer;
@@ -19,12 +18,11 @@ import com.ib.models.LocationWeatherCondition;
 import com.ib.models.LocationWeatherData;
 
 /**
- * 
+ * Weather dto is the representation of the json response exposed by the app
+ *  
  * @author ishmael
  *
- *         Format
- * 
- *         <pre>
+ *<pre>
  * {
  * 	"date": "14-08-2014 13:30:45",
  * 	"city": {

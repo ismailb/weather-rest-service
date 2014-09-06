@@ -5,6 +5,12 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+/**
+ * WeatherCondition contains weather condition codes and description
+ * 
+ * @author ishmael
+ *
+ */
 @Entity
 @Table(name = "WEATHER_CONDITION")
 public class WeatherCondition extends BaseEntity {

@@ -26,6 +26,8 @@ import com.ib.dtos.WeatherDataDTO;
 import com.ib.exception.ApplicationException;
 
 /**
+ * WeatherDataService exposes weather data related services for location
+ * 
  * @author ishmael
  *
  */
@@ -38,6 +40,12 @@ public class WeatherDataService {
 
 	private Logger logger = LoggerFactory.getLogger(WeatherDataService.class);
 
+	/**
+	 * Get today's weather data for a given location
+	 * 
+	 * @param location
+	 * @return weather response
+	 */
 	@GET
 	@Path("/current")
 	@Produces(MediaType.APPLICATION_JSON)

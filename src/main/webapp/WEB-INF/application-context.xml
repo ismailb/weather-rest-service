@@ -14,23 +14,9 @@
 	<context:component-scan base-package="com.ib" />
 	<context:property-placeholder location="classpath:application.properties" />
 
-	<!-- <jee:jndi-lookup id="dataSource" jndi-name="jdbc/weatherdb" /> -->
-	 <!-- <bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource"
-        p:driverClassName="com.mysql.jdbc.Driver" p:url="jdbc:mysql://localhost/weatherdb"
-        p:username="root" p:password="password" p:initialSize="5" p:maxActive="10">
-    </bean> -->
-<!--  	<bean id="dataSource"
-		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="com.mysql.jdbc.Driver" />
-		<property name="url" value="jdbc:mysql://localhost:3306/weatherdb" />
-		<property name="username" value="root" />
-		<property name="password" value="password" />
-	</bean> -->
-
 	<bean id="entityManagerFactory"
 		class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
 		<property name="persistenceUnitName" value="WeatherDB" />
-		<!-- <property name="dataSource" ref="dataSource" /> -->
 		<property name="jpaVendorAdapter">
 			<bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
 				<property name="showSql" value="false" />
@@ -44,14 +30,6 @@
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	
-	<bean id="org.dozer.Mapper" class="org.dozer.DozerBeanMapper">
-		<property name="mappingFiles">
-			<list>
-				<value>dozer-bean-mappings.xml</value>
-			</list>
-		</property>
-	</bean>
-
 	<bean id="restTemplate" class="org.springframework.web.client.RestTemplate">
 	    <property name="messageConverters">
 	        <list>
