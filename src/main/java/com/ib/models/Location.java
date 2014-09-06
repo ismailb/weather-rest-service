@@ -12,6 +12,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.apache.commons.collections.CollectionUtils;
+import org.hibernate.annotations.Where;
 
 @Entity
 @Table(name = "LOCATION")
@@ -33,11 +34,13 @@ public class Location extends BaseEntity{
 	@Column(name = "LONGITUDE")
 	private String longitude;
 
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="location", cascade = CascadeType.ALL)
-	private Set<LocationWeatherCondition> conditions;
+	@OneToMany(fetch=FetchType.EAGER, cascade = { CascadeType.ALL }, mappedBy = "location")
+	@Where(clause = "DATE(INFO_DATE) = CURDATE()")
+	private Set<LocationWeatherCondition> todaysConditions;
 	
-	@OneToMany(fetch=FetchType.LAZY, mappedBy="location", cascade = CascadeType.ALL)
-	private Set<LocationWeatherData> data;
+	@OneToMany(fetch=FetchType.EAGER, cascade = { CascadeType.ALL }, mappedBy = "location")
+	@Where(clause = "DATE(INFO_DATE) = CURDATE()")
+	private Set<LocationWeatherData> todaysData;
 	
 	public String getName() {
 		return name;
@@ -71,28 +74,28 @@ public class Location extends BaseEntity{
 		this.longitude = longitude;
 	}
 
-	public Set<LocationWeatherCondition> getConditions() {
-		if (CollectionUtils.isEmpty(conditions))
+	public Set<LocationWeatherCondition> getTodaysConditions() {
+		if (CollectionUtils.isEmpty(todaysConditions))
 		{
-			conditions = new HashSet<LocationWeatherCondition>();
+			todaysConditions = new HashSet<LocationWeatherCondition>();
 		}
-		return conditions;
+		return todaysConditions;
 	}
 
-	public void setConditions(Set<LocationWeatherCondition> conditions) {
-		this.conditions = conditions;
+	public void setTodaysConditions(Set<LocationWeatherCondition> conditions) {
+		this.todaysConditions = conditions;
 	}
 
-	public Set<LocationWeatherData> getData() {
-		if (CollectionUtils.isEmpty(data))
+	public Set<LocationWeatherData> getTodaysData() {
+		if (CollectionUtils.isEmpty(todaysData))
 		{
-			data = new HashSet<LocationWeatherData>();
+			todaysData = new HashSet<LocationWeatherData>();
 		}
-		return data;
+		return todaysData;
 	}
 
-	public void setData(Set<LocationWeatherData> data) {
-		this.data = data;
+	public void setTodaysData(Set<LocationWeatherData> data) {
+		this.todaysData = data;
 	}
 
 	@Override

@@ -71,7 +71,7 @@ public class RemoteWeatherData {
 	private String name;
 	
 	@JsonProperty("cod")
-	private String code;
+	private int code;
 	
 	@JsonProperty("coord")
 	private CoordinateDTO coordinates;
@@ -101,11 +101,11 @@ public class RemoteWeatherData {
 		this.name = name;
 	}
 
-	public String getCode() {
+	public int getCode() {
 		return code;
 	}
 
-	public void setCode(String code) {
+	public void setCode(int code) {
 		this.code = code;
 	}
 

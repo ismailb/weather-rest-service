@@ -19,6 +19,9 @@ public class WeatherCondition extends BaseEntity {
 	@Column(name = "DESCRIPTION")
 	private String description;
 
+	@Column(name = "CODE")
+	private String code;
+	
 	public String getMain() {
 		return main;
 	}
@@ -33,6 +36,14 @@ public class WeatherCondition extends BaseEntity {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public String getCode() {
+		return code;
+	}
+
+	public void setCode(String code) {
+		this.code = code;
 	}
 
 	@Override

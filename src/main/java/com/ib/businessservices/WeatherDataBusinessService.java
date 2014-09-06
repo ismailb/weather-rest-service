@@ -3,7 +3,9 @@ package com.ib.businessservices;
 import static org.apache.commons.collections.CollectionUtils.isNotEmpty;
 import static org.apache.commons.lang3.StringUtils.isBlank;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.dozer.DozerBeanMapper;
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Propagation;
@@ -25,92 +27,98 @@ public class WeatherDataBusinessService {
 
 	@Autowired
 	private RemoteWeatherDataService remoteWeatherDataService;
-	
+
 	@Autowired
 	private WeatherDataDao weatherDataDao;
-	
+
 	@Autowired
 	private DozerBeanMapper mapper;
-	
+
 	@Transactional(propagation = Propagation.REQUIRED)
-	public WeatherDataDTO getCurrentWeather(String location) {
-		
-		if (isBlank(location))
-		{
-			throw new ApplicationException("Location %s not found", location);
+	public WeatherDataDTO getCurrentWeather(String locationName) {
+
+		if (isBlank(locationName)) {
+			throw new ApplicationException("Location %s not found", locationName);
 		}
-		
+
 		// TODO: check froma db
-		
-		RemoteWeatherData remoteWeatherData = remoteWeatherDataService.getCurrentWeatherData(location);
-		
-		if (remoteWeatherData == null)
-		{
-			throw new ApplicationException("Location not found");
+
+		//Location location = weatherDataDao.getTodaysWeather(locationName);
+		Location location = weatherDataDao.findLocationByName(locationName);
+
+		if (location == null || CollectionUtils.isEmpty(location.getTodaysConditions()) || CollectionUtils.isEmpty(location.getTodaysData())) {
+			
+			RemoteWeatherData remoteWeatherData = remoteWeatherDataService.getCurrentWeatherData(locationName);
+
+			if (remoteWeatherData == null) {
+				throw new ApplicationException("Error: city not found");
+			}
+
+			location = processWeatherData(remoteWeatherData);
 		}
-		
-		processWeatherData(remoteWeatherData);
-		
-		return null;
+
+		return new WeatherDataDTO(location);
 	}
 
-	private void processWeatherData(RemoteWeatherData remoteWeatherData) {
+	private Location processWeatherData(RemoteWeatherData remoteWeatherData) {
 
-		if (remoteWeatherData != null)
-		{
+		Location location = null;
+
+		if (remoteWeatherData != null) {
 			String name = remoteWeatherData.getName();
-			
-			Location location = weatherDataDao.findLocationByName(name);
-			
-			if (location == null)
-			{
-//				location = mapper.map(remoteWeatherData, Location.class);
-//				System.out.println(location);
+
+			location = weatherDataDao.findLocationByName(name);
+
+			if (location == null) {
+
+				// TODO: change to dozer bean mapper
+				// location = mapper.map(remoteWeatherData, Location.class);
+
 				location = new Location();
 				location.setName(name);
 				location.setCountry(remoteWeatherData.getSystem().getCountry());
 				location.setLatitude(remoteWeatherData.getCoordinates().getLatitude());
 				location.setLongitude(remoteWeatherData.getCoordinates().getLongitude());
 			}
-			if (isNotEmpty(remoteWeatherData.getWeather()))
-			{
-				for(WeatherDTO weatherDto : remoteWeatherData.getWeather())
-				{
-					WeatherCondition wc = weatherDataDao.find(WeatherCondition.class, weatherDto.getId());
-					if (wc == null)
-					{
+			if (isNotEmpty(remoteWeatherData.getWeather())) {
+				for (WeatherDTO weatherDto : remoteWeatherData.getWeather()) {
+					WeatherCondition wc = weatherDataDao.findWeatherConditionByCode(WeatherCondition.class, weatherDto.getId());
+					if (wc == null) {
 						wc = new WeatherCondition();
-						wc.setPrimaryId(weatherDto.getId());
+						wc.setCode(weatherDto.getId());
 						wc.setMain(weatherDto.getMain());
 						wc.setDescription(weatherDto.getDescription());
-						//wc = weatherDataDao.save(wc);
-					} 
-					
+					}
+
 					LocationWeatherCondition lwc = new LocationWeatherCondition();
 					lwc.setLocation(location);
 					lwc.setWeatherCondition(wc);
 					lwc.setDate(remoteWeatherData.getDate());
-					
-					location.getConditions().add(lwc);
+
+					location.getTodaysConditions().add(lwc);
 				}
 			}
-			
-			if (remoteWeatherData.getMain() != null && remoteWeatherData.getSystem() != null)
-			{
+
+			if (remoteWeatherData.getMain() != null && remoteWeatherData.getSystem() != null) {
 				LocationWeatherData lwd = new LocationWeatherData();
 				lwd.setLocation(location);
 				lwd.setDate(remoteWeatherData.getDate());
 				lwd.setTempurature(remoteWeatherData.getMain().getTemperature());
 				lwd.setMaximumTempurature(remoteWeatherData.getMain().getMaximumTemperature());
 				lwd.setMinimumTempurature(remoteWeatherData.getMain().getMiniumumTemperature());
-				lwd.setSunriseTime(remoteWeatherData.getSystem().getSunrise());
-				lwd.setSunsetTime(remoteWeatherData.getSystem().getSunset());
-				
-				location.getData().add(lwd);
+
+				// TODO : fix json - custom jackson deserializer issue for
+				// nested object
+				DateTime sunriseTime = new DateTime(Long.valueOf(remoteWeatherData.getSystem().getSunrise() + "000"));
+				lwd.setSunriseTime(sunriseTime.toDate());
+				DateTime sunsetTime = new DateTime(Long.valueOf(remoteWeatherData.getSystem().getSunset() + "000"));
+				lwd.setSunsetTime(sunsetTime.toDate());
+
+				location.getTodaysData().add(lwd);
 			}
-			weatherDataDao.save(location);
+			location = weatherDataDao.save(location);
 		}
-		
+		return location;
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.ib.services;
 
+import javax.ws.rs.core.Response.Status;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,15 +27,12 @@ public class RemoteWeatherDataService {
 		RemoteWeatherData remoteWeatherData = null;
 		
 		try {
-			// Add the Jackson message converter
-			//restTemplate.getMessageConverters().add(new MappingJacksonHttpMessageConverter());
-			
 			remoteWeatherData = restTemplate.getForObject(remoteWeatherDataUrl, RemoteWeatherData.class, location);
 		} catch (Exception e) {
 			logger.error("Exception occured when getting weather data from remote", e);
 		}
 
-		return remoteWeatherData;
+		return (remoteWeatherData != null && Status.OK.getStatusCode() == remoteWeatherData.getCode()) ? remoteWeatherData : null;
 
 	}
 }

@@ -10,7 +10,7 @@ import org.codehaus.jackson.map.annotate.JsonDeserialize;
 
 import com.ib.misc.UnixTimestampDeserializer;
 
-@JsonAutoDetect(getterVisibility = Visibility.NONE, fieldVisibility = Visibility.ANY)
+@JsonAutoDetect(getterVisibility = Visibility.ANY, fieldVisibility = Visibility.ANY)
 @JsonIgnoreProperties(ignoreUnknown=true)
 public class SystemDTO {
 	
@@ -18,12 +18,12 @@ public class SystemDTO {
 	private String country;
 
 	@JsonProperty("sunrise")
-	@JsonDeserialize(using = UnixTimestampDeserializer.class)
-	private Date sunrise;
+	//@JsonDeserialize(using = UnixTimestampDeserializer.class)
+	private String sunrise;
 
 	@JsonProperty("sunset")
-	@JsonDeserialize(using = UnixTimestampDeserializer.class)
-	private Date sunset;
+	//@JsonDeserialize(using = UnixTimestampDeserializer.class)
+	private String sunset;
 
 	public String getCountry() {
 		return country;
@@ -33,19 +33,19 @@ public class SystemDTO {
 		this.country = country;
 	}
 
-	public Date getSunrise() {
+	public String getSunrise() {
 		return sunrise;
 	}
 
-	public void setSunrise(Date sunrise) {
+	public void setSunrise(String sunrise) {
 		this.sunrise = sunrise;
 	}
 
-	public Date getSunset() {
+	public String getSunset() {
 		return sunset;
 	}
 
-	public void setSunset(Date sunset) {
+	public void setSunset(String sunset) {
 		this.sunset = sunset;
 	}
 }

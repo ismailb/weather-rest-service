@@ -4,9 +4,10 @@ import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -19,12 +20,13 @@ public class LocationWeatherData extends BaseEntity {
 	@Column(name = "LOCATION_WEATHER_DATA_ID")	
 	private String primaryId;
 	
-	@OneToOne
-	@JoinColumn(name = "LOCATION_ID", referencedColumnName = "LOCATION_ID", insertable = false, updatable = false)
+	@ManyToOne(fetch = FetchType.EAGER)
+	@JoinColumn(name = "LOCATION_ID", referencedColumnName = "LOCATION_ID")
 	private Location location;
 
+	@Temporal(TemporalType.DATE)
 	@Column(name = "INFO_DATE")
-	private java.util.Date date;
+	private Date date;
 
 	@Column(name = "TEMP")
 	private double tempurature;
@@ -35,11 +37,9 @@ public class LocationWeatherData extends BaseEntity {
 	@Column(name = "MAX_TEMP")
 	private double maximumTempurature;
 
-	@Temporal(TemporalType.TIME)
 	@Column(name = "SUNRISE_TIME")
 	private Date sunriseTime;
 
-	@Temporal(TemporalType.TIME)
 	@Column(name = "SUNSET_TIME")
 	private Date sunsetTime;
 

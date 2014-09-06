@@ -50,9 +50,8 @@ public class WeatherDataService {
 				response.entity(weatherDataDto);
 			} catch (ApplicationException e) {
 				response.status(Status.NOT_FOUND);
-				response.entity(getError(e.getMessage()));
+				response.entity(getError(e.getErrorMessage()));
 			} catch (Exception e) {
-				System.out.println(e.getMessage() + e.getStackTrace());
 				logger.error(e.getMessage(), e);
 				response.status(Status.INTERNAL_SERVER_ERROR);
 				response.entity(getError("Internal Error"));
@@ -61,11 +60,11 @@ public class WeatherDataService {
 		return response.build();
 	}
 
-	private Object getError(String message) {
+	private String getError(String message) {
 		try {
 			JSONObject error = new JSONObject();
 			error.append("message", message);
-			return error;
+			return error.toString();
 		} catch (JSONException e) {
 			logger.error("Exception occurred creating errorMessage", e);
 		}
