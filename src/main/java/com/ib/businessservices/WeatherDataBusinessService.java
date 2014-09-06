@@ -36,6 +36,16 @@ public class WeatherDataBusinessService {
 	@Autowired
 	private WeatherDataDao weatherDataDao;
 
+	public WeatherDataBusinessService()
+	{
+		
+	}
+	
+	public WeatherDataBusinessService(RemoteWeatherDataService remoteWeatherDataService, WeatherDataDao weatherDataDao) {
+		super();
+		this.remoteWeatherDataService = remoteWeatherDataService;
+		this.weatherDataDao = weatherDataDao;
+	}
 
 	/**
 	 * Gets todays weather information for a location
